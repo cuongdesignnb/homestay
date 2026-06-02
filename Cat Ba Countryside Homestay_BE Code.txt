@@ -1,0 +1,5 @@
+ENG
+ <div class="hbe-bws"> <section id="hbe-bws-page"><div id="hbe-bws-wrapper"> </div></section></div><link type="text/css" rel="stylesheet" href="//book.securebookings.net/css/app-v2.css" /><script type="text/javascript" src="//book.securebookings.net/js/v2/widget.all.js"></script><script type="text/javascript" src="//book.securebookings.net/widgetCustomize?lang=en&widgetType=Widget&id=d50ad3f2-5720-1764727832-44d9-ade0-c014c61b10e4&ajax=true"></script>
+
+VI
+ <div class="hbe-bws"> <section id="hbe-bws-page"><div id="hbe-bws-wrapper"> </div></section></div><link type="text/css" rel="stylesheet" href="//book.securebookings.net/css/app-v2.css" /><script type="text/javascript" src="//book.securebookings.net/js/v2/widget.all.js"></script><script type="text/javascript" src="//book.securebookings.net/widgetCustomize?lang=vi&widgetType=Widget&id=d50ad3f2-5720-1764727832-44d9-ade0-c014c61b10e4&ajax=true"></script>

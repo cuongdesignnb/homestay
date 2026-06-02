@@ -1,0 +1,1 @@
+import{p as e}from"./index-ChP2jcPr.js";const r={createBooking(o){return e.post("/bookings",o)},lookupBooking(o,t){return e.get(`/bookings/lookup/${o}`,{params:{guest_email:t}})},cancelBooking(o,t){return e.put(`/bookings/cancel/${o}`,{guest_email:t})},getPaymentForm(o){return e.get(`/payments/${o}/form`)}};export{r as g};

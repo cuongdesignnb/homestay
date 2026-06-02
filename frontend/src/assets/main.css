@@ -1,0 +1,253 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, ::before, ::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  line-height: 1.6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #0f172a;
+  background-color: #f8fafc;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* Improved placeholder text visibility */
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #6b7280 !important; /* gray-500 for better visibility */
+  opacity: 0.85;
+}
+
+input:focus::placeholder,
+textarea:focus::placeholder {
+  color: #9ca3af !important; /* gray-400 when focused */
+  opacity: 0.7;
+}
+
+/* Admin forms specific styling */
+.admin input,
+.admin textarea,
+.admin select {
+  color: #1f2937 !important; /* Ensure input text is dark */
+  background-color: #ffffff !important; /* White background for better contrast */
+}
+
+.admin input::placeholder,
+.admin textarea::placeholder,
+.admin select::placeholder {
+  color: #4b5563 !important; /* Darker gray for admin */
+  opacity: 0.95;
+  font-weight: 400;
+}
+
+.admin input:focus::placeholder,
+.admin textarea:focus::placeholder,
+.admin select:focus::placeholder {
+  color: #6b7280 !important;
+  opacity: 0.8;
+}
+
+/* Ensure form elements have good contrast */
+.admin .border-gray-300 {
+  border-color: #d1d5db !important;
+}
+
+.admin input:focus,
+.admin textarea:focus,
+.admin select:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Disabled/readonly styling */
+.admin input:disabled,
+.admin textarea:disabled,
+.admin select:disabled,
+.admin input[readonly],
+.admin textarea[readonly] {
+  background-color: #f9fafb !important;
+  color: #6b7280 !important;
+  border-color: #e5e7eb !important;
+}
+
+.admin input:disabled::placeholder,
+.admin textarea:disabled::placeholder,
+.admin input[readonly]::placeholder,
+.admin textarea[readonly]::placeholder {
+  color: #9ca3af !important;
+  opacity: 0.8;
+}
+
+/* Improve label visibility in admin */
+.admin label {
+  color: #374151 !important; /* darker gray for labels */
+  font-weight: 500;
+}
+
+.admin .text-gray-700 {
+  color: #374151 !important;
+}
+
+.admin .text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.admin .text-gray-500 {
+  color: #6b7280 !important;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-secondary {
+  background-color: #6b7280;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #4b5563;
+}
+
+
+.card {
+  background: white;
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.12);
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.hero-overlay {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.95), rgba(59, 130, 246, 0.75));
+  z-index: -1;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.85s ease forwards;
+}
+
+.fade-delay-1 { animation-delay: 0.15s; }
+.fade-delay-2 { animation-delay: 0.3s; }
+.fade-delay-3 { animation-delay: 0.45s; }
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.float-slow {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #2563eb;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 2rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.5rem;
+  }
+}

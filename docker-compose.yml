@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  # Laravel Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: homestay_backend
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+      - ./backend/storage:/var/www/storage
+      - ./backend/bootstrap/cache:/var/www/bootstrap/cache
+    ports:
+      - "8765:8765"
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=homestay_db
+      - DB_USERNAME=homestay_user
+      - DB_PASSWORD=homestay_secure_pass_2024
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    command: >
+      bash -c "php artisan serve --host=0.0.0.0 --port=8765"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - homestay_network
+
+  # Vue3 Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: homestay_frontend
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5174:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8765/api
+    networks:
+      - homestay_network
+
+  # MySQL Database Service
+  mysql:
+    image: mysql:8.0
+    container_name: homestay_mysql
+    restart: unless-stopped
+    ports:
+      - "33065:3306"
+    environment:
+      MYSQL_DATABASE: homestay_db
+      MYSQL_USER: homestay_user
+      MYSQL_PASSWORD: homestay_secure_pass_2024
+      MYSQL_ROOT_PASSWORD: root_secure_pass_2024
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - homestay_network
+    command: --default-authentication-plugin=mysql_native_password
+
+  # phpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: homestay_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8091:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root_secure_pass_2024
+      UPLOAD_LIMIT: 256M
+    depends_on:
+      - mysql
+    networks:
+      - homestay_network
+
+  # Redis Service
+  redis:
+    image: redis:7-alpine
+    container_name: homestay_redis
+    restart: unless-stopped
+    ports:
+      - "63905:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - homestay_network
+
+networks:
+  homestay_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local

@@ -1,0 +1,38 @@
+# IDE / Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Zip / Tar archives
+*.zip
+*.tar.gz
+*.rar
+*.sql
+
+# Build outputs & dependencies (recursive)
+node_modules/
+vendor/
+dist/
+
+# Env credentials (recursive)
+.env
+.env.production
+.env.local
+.env.*.local
+
+# Backend storage logs & caches
+backend/storage/*.log
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/testing/*
+backend/storage/framework/views/*
+backend/bootstrap/cache/*.php
+backend/public/storage
