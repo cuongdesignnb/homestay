@@ -263,22 +263,27 @@
             </label>
 
             <!-- Variant Selector -->
-            <label v-if="tour.variants && tour.variants.length">
-              <span>{{ $t("tours.variant", "Tour Variant") }}</span>
-              <select
-                v-model="selectedVariantId"
-                @change="onVariantChange"
-                class="booking-select"
-              >
-                <option
+            <div v-if="tour.variants && tour.variants.length" class="variants-section">
+              <span class="section-label">{{ $t("tours.variant", "Tour Variant") }}</span>
+              <div class="variants-list">
+                <button
+                  type="button"
                   v-for="variant in tour.variants"
                   :key="variant.id"
-                  :value="variant.id"
+                  class="variant-card"
+                  :class="{ active: selectedVariantId === variant.id }"
+                  @click="selectVariant(variant.id)"
                 >
-                  {{ variant.name }}
-                </option>
-              </select>
-            </label>
+                  <div class="variant-info">
+                    <span class="variant-name">{{ variant.name }}</span>
+                    <span v-if="variant.description" class="variant-desc">{{ variant.description }}</span>
+                  </div>
+                  <span class="variant-price" v-if="getVariantMinPrice(variant)">
+                    {{ $t("tours.from") }} {{ formatPrice(getVariantMinPrice(variant)) }}
+                  </span>
+                </button>
+              </div>
+            </div>
 
             <label>
               <span>{{ $t("tours.participants", "Participants") }}</span>
@@ -299,7 +304,12 @@
             <div v-if="tour.addons && tour.addons.length" class="addons-container">
               <span class="addons-title">{{ $t("tours.addons", "Optional Addons") }}</span>
               <div class="addons-list">
-                <label v-for="addon in tour.addons" :key="addon.id" class="addon-checkbox-label">
+                <label
+                  v-for="addon in tour.addons"
+                  :key="addon.id"
+                  class="addon-checkbox-label"
+                  :class="{ checked: selectedAddonIds.includes(addon.id) }"
+                >
                   <input
                     type="checkbox"
                     :value="addon.id"
@@ -435,6 +445,23 @@ const onVariantChange = () => {
   } else if (bookingForm.value.participants > max) {
     bookingForm.value.participants = max;
   }
+};
+
+const selectVariant = (variantId) => {
+  selectedVariantId.value = variantId;
+  onVariantChange();
+};
+
+const getVariantMinPrice = (variant) => {
+  if (!variant.price_tiers || !variant.price_tiers.length) return 0;
+  let min = Infinity;
+  variant.price_tiers.forEach(tier => {
+    const price = parseFloat(tier.discount_price ?? tier.price);
+    if (price < min) {
+      min = price;
+    }
+  });
+  return min === Infinity ? 0 : min;
 };
 
 const effectivePrice = computed(() => {
@@ -1477,6 +1504,91 @@ onBeforeUnmount(() => stopSlider());
 .addon-unit {
   font-size: 0.75rem;
   opacity: 0.7;
+}
+
+/* Redesigned Variants Selection */
+.variants-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-label {
+  font-size: 0.85rem;
+  opacity: 0.95;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.variants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.variant-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+.variant-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.variant-card.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #22c55e;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+}
+
+.variant-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  padding-right: 1rem;
+}
+
+.variant-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.variant-desc {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  line-height: 1.4;
+}
+
+.variant-price {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #22c55e;
+  white-space: nowrap;
+}
+
+.variant-card.active .variant-price {
+  color: #4ade80;
+}
+
+/* Checked Addon styling */
+.addon-checkbox-label.checked {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.4);
 }
 
 .tier-warning {
