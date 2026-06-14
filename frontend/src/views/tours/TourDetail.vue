@@ -648,7 +648,17 @@ const loadTour = async () => {
   loading.value = true;
   try {
     const response = await api.get(`/tours/${route.params.id}`);
-    tour.value = response.data;
+    const data = response.data;
+    
+    // Map active_variants and active_addons to variants and addons for frontend compatibility
+    if (data.active_variants) {
+      data.variants = data.active_variants;
+    }
+    if (data.active_addons) {
+      data.addons = data.active_addons;
+    }
+    
+    tour.value = data;
     
     if (tour.value.variants && tour.value.variants.length) {
       const defaultVariant = tour.value.variants.find(v => v.is_default) || tour.value.variants[0];

@@ -122,10 +122,14 @@ class Tour extends Model
 
         if ($this->relationLoaded('variants')) {
             $this->variants->each(fn ($v) => $v->applyLocale($locale));
+        } elseif ($this->relationLoaded('activeVariants')) {
+            $this->activeVariants->each(fn ($v) => $v->applyLocale($locale));
         }
 
         if ($this->relationLoaded('addons')) {
             $this->addons->each(fn ($a) => $a->applyLocale($locale));
+        } elseif ($this->relationLoaded('activeAddons')) {
+            $this->activeAddons->each(fn ($a) => $a->applyLocale($locale));
         }
 
         return $this;
