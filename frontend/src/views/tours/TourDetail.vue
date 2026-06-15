@@ -652,7 +652,12 @@ const loadTour = async () => {
     
     // Map active_variants and active_addons to variants and addons for frontend compatibility
     if (data.active_variants) {
-      data.variants = data.active_variants;
+      data.variants = data.active_variants.map(variant => {
+        if (variant.active_price_tiers) {
+          variant.price_tiers = variant.active_price_tiers;
+        }
+        return variant;
+      });
     }
     if (data.active_addons) {
       data.addons = data.active_addons;
